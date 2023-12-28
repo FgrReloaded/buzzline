@@ -16,7 +16,7 @@ const FileUpload = ({ endpoint, onChange, value }: FileUploadProps) => {
         return (
             <div className="relative h-32 w-32">
                 <Image alt='img' src={value} fill layout="fill" objectFit="contain" className='rounded-full' />
-                <button className="absolute  rounded-sm top-0 right-0" onClick={() => onChange(undefined)}>
+                <button className="absolute  rounded-sm top-0 right-0" onClick={() => onChange("")}>
                     <X size={20} />
                 </button>
             </div>
