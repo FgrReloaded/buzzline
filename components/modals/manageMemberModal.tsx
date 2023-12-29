@@ -116,7 +116,7 @@ const ManageMemberModal = () => {
                 <div className='flex items-center mb-3 gap-x-2' key={member?.id}>
                   <UserAvatar src={member?.profile?.imageUrl} />
                   <div className='flex flex-col gap-y-1'>
-                    <div className="text-xs font-semibold flex items-center gap-x-2">
+                    <div className="text-xs font-semibold tracking-wide flex items-center gap-x-2">
                       {member?.profile?.name}
                       {roleIconMap[member?.role]}
                     </div>

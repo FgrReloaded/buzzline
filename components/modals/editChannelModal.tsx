@@ -27,7 +27,7 @@ import {
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Button } from '../ui/button';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useModal } from '@/hooks/use-modal-store';
 import { ChannelType } from '@prisma/client';
 
@@ -37,14 +37,13 @@ const formSchema = z.object({
   type: z.nativeEnum(ChannelType)
 })
 
-const CreateChannelModal = () => {
+const EditChannelModal = () => {
   const [resetChannelType, setResetChannelType] = useState(Math.random());
   const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
-  const params = useParams();
 
-  const isModalOpen = isOpen && type === 'createChannel';
-  const { channelType } = data
+  const isModalOpen = isOpen && type === 'editChannel';
+  const { channel, server } = data
 
   const handleOnClose = () => {
     form.reset();
@@ -57,18 +56,17 @@ const CreateChannelModal = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      type: channelType || ChannelType.TEXT
+      type: channel?.type || ChannelType.TEXT
     }
   })
 
 
   useEffect(() => {
-    if (channelType) {
-      form.setValue("type", channelType);
-    } else {
-      form.setValue("type", ChannelType.TEXT);
+    if (channel) {
+      form.setValue('name', channel.name)
+      form.setValue('type', channel.type)
     }
-  }, [channelType, form, resetChannelType])
+  }, [form, channel, resetChannelType])
 
 
   const isLoading = form.formState.isSubmitting;
@@ -76,12 +74,12 @@ const CreateChannelModal = () => {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       const url = qs.stringifyUrl({
-        url: '/api/channels',
+        url: `/api/channels/${channel?.id}`,
         query: {
-          serverId: params?.serverId
+          serverId: server?.id
         }
       })
-      await axios.post(url, data);
+      await axios.patch(url, data);
       form.reset();
       router.refresh();
       onClose();
@@ -96,7 +94,7 @@ const CreateChannelModal = () => {
     <Dialog open={isModalOpen} onOpenChange={handleOnClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create New Channel</DialogTitle>
+          <DialogTitle>Edit Channel</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -146,7 +144,7 @@ const CreateChannelModal = () => {
             </div>
             <DialogFooter className='px-6 py-4'>
               <Button className='m-auto w-full' type='submit' disabled={isLoading}>
-                Create Channel
+                Update Channel
               </Button>
             </DialogFooter>
           </form>
@@ -157,4 +155,4 @@ const CreateChannelModal = () => {
   )
 }
 
-export default CreateChannelModal
+export default EditChannelModal

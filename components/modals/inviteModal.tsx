@@ -27,7 +27,7 @@ const InviteModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [newInviteUrl, setNewInviteUrl] = useState("");
 
-  const { onOpen, isOpen, onClose, type, data } = useModal();
+  const { isOpen, onClose, type, data } = useModal();
   const origin = useOrigin();
 
   const isModalOpen = isOpen && type === 'invite';

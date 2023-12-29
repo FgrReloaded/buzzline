@@ -8,6 +8,8 @@ import ManageMemberModal from "../modals/manageMemberModal";
 import CreateChannelModal from "../modals/createChannelModal";
 import LeaveModal from "../modals/leaveModal";
 import DeleteModal from "../modals/deleteModal";
+import DeleteChannelModal from "../modals/deleteChannelModal";
+import EditChannelModal from "../modals/editChannelModal";
 
 const ModalProvider = () => {
     const [isMounted, setIsMounted] = useState(false);
@@ -27,6 +29,8 @@ const ModalProvider = () => {
             <CreateChannelModal />
             <LeaveModal/>
             <DeleteModal/>
+            <DeleteChannelModal />
+            <EditChannelModal />
         </div>
     )
 }
