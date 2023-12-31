@@ -39,7 +39,6 @@ const formSchema = z.object({
 
 
 const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
-    const [isLoading, setIsLoading] = useState(false)
     const { onOpen } = useModal();
     const router = useRouter();
     const form = useForm<z.infer<typeof formSchema>>({
@@ -49,10 +48,11 @@ const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
         }
     })
 
+    const isLoading = form.formState.isSubmitting;
+
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            setIsLoading(true)
             const url = qs.stringifyUrl({
                 url: apiUrl,
                 query
@@ -63,9 +63,6 @@ const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
             // router.refresh();
         } catch (error) {
             console.log(error)
-        }
-        finally {
-            setIsLoading(false)
         }
 
     }

@@ -46,7 +46,7 @@ export const DeleteMessageModal = () => {
         <Dialog open={isModalOpen} onOpenChange={onClose}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Delete Channel</DialogTitle>
+                    <DialogTitle>Delete Message</DialogTitle>
                     <DialogDescription className='text-center text-zinc-500'>
                         Are you sure you want to do this? <br />
                         The message will be permanently deleted.

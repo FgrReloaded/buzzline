@@ -175,7 +175,7 @@ const ChatItem = ({
                             <form
                                 className="flex items-center w-full gap-x-2 pt-2"
                                 onSubmit={form.handleSubmit(onSubmit)}>
-                                <FormField
+                                <FormField disabled={isLoading}
                                     control={form.control}
                                     name="content"
                                     render={({ field }) => (

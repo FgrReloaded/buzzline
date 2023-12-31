@@ -6,6 +6,9 @@ import { redirectToSignIn } from '@clerk/nextjs'
 import { redirect } from 'next/navigation'
 import React from 'react'
 
+import ChatMessage from '@/components/chat/chatMessage'
+import ChatInput from '@/components/chat/chatInput'
+
 interface MemberIdPageProps {
   params: {
     serverId: string
@@ -48,7 +51,17 @@ const MemberIdPage = async ({ params }: MemberIdPageProps) => {
   return (
     <div className='bg-white dark:bg-[#313338] flex flex-col h-full' >
       <ChatHeader imageUrl={otherMember.profile.imageUrl} name={otherMember.profile.name} type='conversation' serverId={params.serverId} />
-
+      <ChatMessage member={currentMember} name={otherMember.profile.name} chatId={conversation.id} type='conversation' apiUrl='/api/direct-messages' paramKey="conversationId" paramValue={conversation.id} socketUrl='/api/socket/direct-messages' socketQuery={{
+        conversationId: conversation.id
+      }} />
+      <ChatInput
+            name={otherMember.profile.name}
+            type="conversation"
+            apiUrl="/api/socket/direct-messages"
+            query={{
+              conversationId: conversation.id,
+            }}
+          />
     </div>
   )
 }
