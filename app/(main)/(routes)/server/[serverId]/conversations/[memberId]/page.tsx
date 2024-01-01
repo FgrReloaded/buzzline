@@ -8,15 +8,19 @@ import React from 'react'
 
 import ChatMessage from '@/components/chat/chatMessage'
 import ChatInput from '@/components/chat/chatInput'
+import MediaRoom from '@/components/media-room'
 
 interface MemberIdPageProps {
   params: {
     serverId: string
     memberId: string
+  },
+  searchParams: {
+    video?: boolean
   }
 }
 
-const MemberIdPage = async ({ params }: MemberIdPageProps) => {
+const MemberIdPage = async ({ params, searchParams }: MemberIdPageProps) => {
   const profile = await getCurrentProfile();
 
   if (!profile) {
@@ -51,10 +55,15 @@ const MemberIdPage = async ({ params }: MemberIdPageProps) => {
   return (
     <div className='bg-white dark:bg-[#313338] flex flex-col h-full' >
       <ChatHeader imageUrl={otherMember.profile.imageUrl} name={otherMember.profile.name} type='conversation' serverId={params.serverId} />
-      <ChatMessage member={currentMember} name={otherMember.profile.name} chatId={conversation.id} type='conversation' apiUrl='/api/direct-messages' paramKey="conversationId" paramValue={conversation.id} socketUrl='/api/socket/direct-messages' socketQuery={{
-        conversationId: conversation.id
-      }} />
-      <ChatInput
+      {searchParams.video && (
+        <MediaRoom chatId={conversation.id} video={true} audio={true}  />
+      )}
+      {!searchParams.video && (
+        <>
+          <ChatMessage member={currentMember} name={otherMember.profile.name} chatId={conversation.id} type='conversation' apiUrl='/api/direct-messages' paramKey="conversationId" paramValue={conversation.id} socketUrl='/api/socket/direct-messages' socketQuery={{
+            conversationId: conversation.id
+          }} />
+          <ChatInput
             name={otherMember.profile.name}
             type="conversation"
             apiUrl="/api/socket/direct-messages"
@@ -62,6 +71,9 @@ const MemberIdPage = async ({ params }: MemberIdPageProps) => {
               conversationId: conversation.id,
             }}
           />
+        </>
+      )}
+
     </div>
   )
 }

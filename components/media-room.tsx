@@ -63,9 +63,6 @@ const MediaRoom = ({
             <VideoConference />
         </LiveKitRoom>
     )
-    return (
-        <div>MediaRoom</div>
-    )
 }
 
 export default MediaRoom
